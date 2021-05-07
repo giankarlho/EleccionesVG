@@ -39,7 +39,7 @@ public class Conexion {
         if(cnx!=null){
             System.out.println("esta abierta, jojolete");
         }else{
-            System.out.println("esta cerradita, fijate el driver, conexión, etc....monse");
+            System.out.println("fijate el driver, conexión cerrada, etc....");
         }
     }
 }
