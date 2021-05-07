@@ -13,16 +13,19 @@
         <p:growl id="mensaje" showDetail="true" />
         <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
 
-        <h:form id="form">
-            <!--dni_per nom_per  nac_per  tel_per asig_mes   mes_per   obs_per  cod_ubi sex_per-->
+        <h:form id="form">            
 
             <!--        Formulario del Personero    >-->         
-            <p:panelGrid columns="2">
-                <p:outputLabel value="DNI" /> <p:inputText value="#{personeroC.per.dni}" maxlength="8" >
-                    <p:keyFilter regEx="/[0-9]/" />
-                </p:inputText>                  
+            <p:panelGrid columns="2"  style="width: 33%;">
+                <p:outputLabel for="dni" value="DNI" />
+                <p:inputText id="dni" value="#{personeroC.per.dni}" maxlength="8" required="true">
+                    <p:keyFilter regEx="/[0-9]/" />                    
+                    <f:validateLength minimum="8" maximum="8" />
+                    <p:ajax update="msgDni" event="keyup" />
+                    <p:message for="dni" id="msgDni" display="No" showDetail="true" /> 
+                </p:inputText>                               
                 <p:outputLabel value="Nombre" /> <p:inputText value="#{personeroC.per.nombre}" maxlength="30" />
-                <p:outputLabel value="Nacimiento" /> <p:calendar value="#{personeroC.per.nacimiento}" mask="99/99/99" maxdate="@now"  />
+                <p:outputLabel value="Nacimiento" /> <p:calendar value="#{personeroC.per.nacimiento}" pattern="dd-MM-yyyy" mask="true" maxdate="@now"  />
                 <p:outputLabel value="Telefono" /> <p:inputText value="#{personeroC.per.telefono}" maxlength="9" >
                     <p:keyFilter regEx="/[0-9]/" />
                 </p:inputText>
@@ -33,13 +36,16 @@
                     <p:keyFilter regEx="/[0-9]/" />
                 </p:inputText>
                 <p:outputLabel value="Observación" /> <p:inputText value="#{personeroC.per.observacion}" maxlength="50" />
-                <p:outputLabel value="Ubigeo" /> <p:inputText value="#{personeroC.per.ubigeo}" />
+                <p:outputLabel value="Distrito" /> <p:autoComplete value="#{personeroC.per.ubigeo}" completeMethod="#{personeroC.completeTextUbigeo}"
+                                                                   inputStyle="width: 135%;" minQueryLength="4"/>
+
                 <p:outputLabel value="Sexo" /><p:selectOneRadio id="sexo" value="#{personeroC.per.sexo}" >
                     <f:selectItem itemLabel="Masculino" itemValue="M" />
                     <f:selectItem itemLabel="Femenino" itemValue="F" />
                 </p:selectOneRadio>
                 <p:commandButton value="Registrar" actionListener="#{personeroC.registrar()}" update="tablaPer mensaje"/>
                 <!--<p:commandButton value="Listar" actionListener="#{personeroC.listar()}" update="tablaPer" />-->
+                
             </p:panelGrid>
             <!--        Formulario del Personero    >-->
 
@@ -49,8 +55,8 @@
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                          rowsPerPageTemplate="5,10,{ShowAll|'All'}" >
-                <p:column headerText="DNI">
-                    <h:outputText value="#{tblpers.dni}" />
+                <p:column headerText="DNI" style="width: 80px; alignment-adjust: central;column-rule-color: royalblue   ">
+                    <h:outputText value="#{tblpers.dni}"  />
                 </p:column>
 
                 <p:column headerText="Nombre">
@@ -81,7 +87,7 @@
                     <h:outputText value="#{tblpers.ubigeo}" />
                 </p:column>
 
-                <p:column headerText="Sexo">
+                <p:column headerText="Sexo" style="width: 70px;">
                     <h:outputText value="#{tblpers.sexo}" >
                         <f:converter converterId="sexoConverter"/>
                     </h:outputText>
@@ -108,6 +114,7 @@
             <!--  Listado del Personero -->
 
         </h:form>
+
         <p:dialog header="Datos del Personero" widgetVar="wdlgDatos" id="dlgDatos">
             <h:form>
                 <p:panelGrid columns="2">
@@ -115,7 +122,7 @@
                         <p:keyFilter regEx="/[0-9]/" />
                     </p:inputText>                  
                     <p:outputLabel value="Nombre" /> <p:inputText value="#{personeroC.per.nombre}" maxlength="30" />
-                    <p:outputLabel value="Nacimiento" /> <p:calendar value="#{personeroC.per.nacimiento}" mask="99/99/99" maxdate="@now"  />
+                    <p:outputLabel value="Nacimiento" /> <p:calendar value="#{personeroC.per.nacimiento}" pattern="dd-MM-yyyy" mask="true" maxdate="@now"  />
                     <p:outputLabel value="Telefono" /> <p:inputText value="#{personeroC.per.telefono}" maxlength="9" >
                         <p:keyFilter regEx="/[0-9]/" />
                     </p:inputText>
@@ -131,9 +138,7 @@
                         <f:selectItem itemLabel="Masculino" itemValue="M" />
                         <f:selectItem itemLabel="Femenino" itemValue="F" />
                     </p:selectOneRadio>
-
                     <p:commandButton value="Cancelar" immediate="true" oncomplete="PF('wdlgDatos').hide();" />
-
                     <p:commandButton value="Modificar" actionListener="#{personeroC.modificar()}" 
                                      update=":form:tablaPer" oncomplete="PF('wdlgDatos').hide();" >
                         <p:confirm header="Confirmación" message="¿Deseas Modificar?" icon="ui-icon-alert"/>

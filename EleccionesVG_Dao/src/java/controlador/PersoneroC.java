@@ -15,20 +15,17 @@ import modelo.Personero;
 public class PersoneroC implements Serializable {
 
     private Personero per;
-//    private Personero selectPer;
     private PersoneroImpl dao;
     private List<Personero> listadoPer;
-//     private Date fechaFormulario;
-//    SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
 
     public PersoneroC() {
         per = new Personero();
         dao = new PersoneroImpl();
-//        selectPer = new Personero();
     }
 
     public void registrar() throws Exception {
         try {
+            per.setUbigeo(dao.obtenerCodigoUbigeo(per.getUbigeo()));
             dao.registrar(per);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Registrado con éxito"));
             limpiar();
@@ -49,8 +46,8 @@ public class PersoneroC implements Serializable {
         }
     }
 
-    public void eliminar(Personero pers) throws Exception{
-        try {            
+    public void eliminar(Personero pers) throws Exception {
+        try {
             dao.eliminar(pers);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "OK", "Eliminado con éxito"));
             limpiar();
@@ -59,6 +56,11 @@ public class PersoneroC implements Serializable {
             System.out.println("Error en eliminarC " + e.getMessage());
         }
     }
+
+    public List<String> completeTextUbigeo(String query) throws SQLException, Exception {
+        PersoneroImpl daoUbi = new PersoneroImpl();
+        return daoUbi.autocompleteUbigeo(query);
+    }    
 
 
     public void limpiar() {
@@ -72,7 +74,7 @@ public class PersoneroC implements Serializable {
             System.out.println("Error en listarC " + e.getMessage());
         }
     }
-    
+
     // métodos generados
     public Personero getPer() {
         return per;
@@ -98,13 +100,5 @@ public class PersoneroC implements Serializable {
         this.listadoPer = listadoPer;
     }
 
-//    public Personero getSelectPer() {
-//        return selectPer;
-//    }
-//
-//    public void setSelectPer(Personero selectPer) {
-//        this.selectPer = selectPer;
-//    }
 
-    
 }
