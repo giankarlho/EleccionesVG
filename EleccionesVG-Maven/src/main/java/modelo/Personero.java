@@ -6,13 +6,14 @@ public class Personero {
     
     private String dni;
     private String nombre;
+    private String apaterno;
+    private String amaterno;
     private Date nacimiento;
     private String telefono;
     private String asignacion;
     private String mesa;
-    private String observacion;
-    private String ubigeo;
-    private String sexo;
+    private String observacion;    
+    private String estado; // Activo (A) y no activo (I)
 
     // Getter y Setter
     public String getDni() {
@@ -57,17 +58,23 @@ public class Personero {
     public void setNacimiento(Date nacimiento) {
         this.nacimiento = nacimiento;
     }  
-    public String getUbigeo() {
-        return ubigeo;
+    public String getEstado() {
+        return estado;
     }
-    public void setUbigeo(String ubigeo) {
-        this.ubigeo = ubigeo;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
-    public String getSexo() {
-        return sexo;
+    public String getApaterno() {
+        return apaterno;
     }
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    } 
+    public void setApaterno(String apaterno) {
+        this.apaterno = apaterno;
+    }
+    public String getAmaterno() {
+        return amaterno;
+    }
+    public void setAmaterno(String amaterno) {
+        this.amaterno = amaterno;
+    }   
     
 }

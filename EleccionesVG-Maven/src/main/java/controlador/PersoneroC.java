@@ -23,7 +23,7 @@ public class PersoneroC implements Serializable {
     public PersoneroC() {
         per = new Personero();
         dao = new PersoneroImpl();
-//        selectPer = new Personero();
+
     }
 
     public void registrar() throws Exception {
