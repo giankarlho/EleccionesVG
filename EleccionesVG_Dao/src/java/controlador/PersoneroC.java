@@ -25,6 +25,7 @@ public class PersoneroC implements Serializable {
 
     public void registrar() throws Exception {
         try {
+            System.out.println("per.getUbigeo() " + per.getUbigeo());
             per.setUbigeo(dao.obtenerCodigoUbigeo(per.getUbigeo()));
             dao.registrar(per);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Registrado con éxito"));
